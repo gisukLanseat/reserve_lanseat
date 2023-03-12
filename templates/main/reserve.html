@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load filter %}
+{% block content %}
+<div class="container-fluid bg-secondary text-center shadow-sm p-3 my-2">
+    <h1 class="my-3 text-light">랜선석 예약</h1>
+    {% if error_msg %}
+    <div class="alert alert-danger">
+        {% for error in error_msg %}
+        <div>
+            <strong>{{error}}</strong>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <form action="{% url 'main:reserve' student %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="student_number" id="student_number" value="{{student}}">
+        <div class="container">
+            <div class="table-responsive">
+                <table class="w-auto">
+                    <tbody>
+                        {% for ss in seats %}
+                        <tr>
+                            {% for s in ss %}
+                                <td>
+                                    {% if s != '' %}
+                                    {% if reserved|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter %}
+                                    <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="{{room|add:s}}" disabled>
+                                    <label class="btn btn-danger" for="{{s}}">{{s}}</label>
+                                    {% else %}
+                                    <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="{{room|add:s}}">
+                                    <label class="btn btn-primary" for="{{s}}">{{s}}</label>
+                                    {% endif %}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        	</div>
+        </div>
+        
+
+        <button class="btn btn-primary my-2" type="submit">예약하기</button>
+    </form>
+    <a href="{% url 'main:main' %}"><button class="btn btn-primary" type="submit">돌아가기</button></a>
+</div>
+{% endblock content %}
