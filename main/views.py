@@ -45,14 +45,13 @@ def reserve(request, number, room_id):
             print(number)
             r = reservation(seat=request.POST.get("seat"), date=timezone.now().date(), student=number)
             r.save()
-            return redirect('main:main')
+            return redirect('main:dashboard')
         else:
             error_msg = []
             if reservation.objects.filter(student=number).filter(date=timezone.now().date()):
                 instance = reservation.objects.filter(student=number).filter(date=timezone.now().date()).filter(seat=request.POST.get("seat"))
                 if instance:
                     instance[0].delete()
-                    return redirect('main:main')
                 else:
                     error_msg.append("이미 예약하셨습니다. 취소하려면 본인이 예약한 좌석을 선택하고 예약하기를 눌러주세요")
             else:

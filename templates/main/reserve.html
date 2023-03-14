@@ -24,7 +24,10 @@
                             {% for s in ss %}
                                 <td>
                                     {% if s != '' %}
-                                    {% if reserved|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter != "not_reserved" %}
+                                    {% if reserved|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter == student %}
+                                    <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="{{room|add:s}}">
+                                    <label class="btn btn-warning" for="{{s}}">{{s}}</label>
+                                    {% elif reserved|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter != "not_reserved" %}
                                     <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="{{room|add:s}}" disabled>
                                     <label class="btn btn-danger" for="{{s}}">{{s}}</label>
                                     {% else %}
