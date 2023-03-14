@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load filter %}
+{% block content %}
+<div class="container-fluid bg-secondary text-center shadow-sm p-3 my-2">
+    <h1 class="my-3 text-light">랜선석 예약</h1>
+    {% if error_msg %}
+    <div class="alert alert-danger">
+        {% for error in error_msg %}
+        <div>
+            <strong>{{error}}</strong>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% for key, value in reserved.items %}
+        <div class="container">
+            <h2>{{key}}</h2>
+            <div class="table-responsive">
+                <table class="w-auto">
+                    <tbody>
+                        {% for ss in value %}
+                        <tr>
+                            {% for s in ss %}
+                                <td>
+                                    {% with seat as seats.key|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter %}
+                                    {% if s != '' %}
+                                    {% if value|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter != "not_reserved" %}
+                                    <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="" disabled>
+                                    <label class="btn btn-danger" for="{{s}}">{{seat}}</br>{{value|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter}}</label>
+                                    {% else %}
+                                    <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="">
+                                    <label class="btn btn-primary" for="{{s}}">예약자 없음</label>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endwith %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}
