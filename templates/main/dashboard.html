@@ -22,16 +22,17 @@
                         <tr>
                             {% for s in ss %}
                                 <td>
-                                    {% with seat as seats.key|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter %}
+                                    {% with seat as ids|get_item:key|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter %}
+                                    {% with id as ids|get_item:key %}
                                     {% if s != '' %}
                                     {% if value|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter != "not_reserved" %}
-                                    <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="" disabled>
-                                    <label class="btn btn-danger" for="{{s}}">{{seat}}</br>{{value|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter}}</label>
+                                    <a href = "{% url 'main:cancel' ids|get_item:key|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter %}" onclick="return confirm('{{value|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter}}의 예약을 진짜 취소하시겠습니까?');"><button class="btn btn-danger">{{seat}}</br>{{value|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter}}</button></a>
                                     {% else %}
                                     <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="">
                                     <label class="btn btn-primary" for="{{s}}">예약자 없음</label>
                                     {% endif %}
                                     {% endif %}
+                                    {% endwith %}
                                     {% endwith %}
                                 </td>
                             {% endfor %}
