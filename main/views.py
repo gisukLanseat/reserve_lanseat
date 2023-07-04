@@ -22,11 +22,12 @@ def index(request):
         if request.POST.get("student_number") != "" and len(request.POST.get("student_number")) == 6:
             return redirect('main:start', int(request.POST.get("student_number")), request.POST.get("room"))
         else:
-            error_msg = []
-            if request.POST.get("student_number") == "":
-                error_msg.append("학번을 입력하세요")
-            if len(request.POST.get("student_number")) != 4:
+            if len(request.POST.get("student_number")) != 6:
+                error_msg = []
                 error_msg.append("학번을 정확히 입력하세요(예: 221323)")
+            elif request.POST.get("student_number") == "":
+                error_msg = []
+                error_msg.append("학번을 입력하세요")
             context = {'seats':seat.seats.keys, "error_msg":error_msg}
             return render(request, "main/main.html", context)
     context = {'seats':seat.seats.keys}
@@ -64,7 +65,6 @@ def reserve(request, number, room_id):
         if not reservation.objects.filter(student=number).filter(date=timezone.now().date()) and not reservation.objects.filter(seat=request.POST.get("seat")).filter(date=timezone.now().date()):
             r = reservation(seat=request.POST.get("seat"), date=timezone.now().date(), student=number)
             r.save()
-            return redirect('main:dashboard')
         else:
             error_msg = []
             if reservation.objects.filter(student=number).filter(date=timezone.now().date()):
@@ -76,7 +76,7 @@ def reserve(request, number, room_id):
             else:
                 error_msg.append("이미 예약된 좌석입니다.")
             reserved = get_reserved(room_id)
-            return redirect('main:start', number, room_id)
+        return redirect('main:start', number, room_id)
 
 def dashBoard(request):
     if request.user.is_authenticated:
