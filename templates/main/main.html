@@ -2,20 +2,23 @@
 {% block content %}
 <div class="container bg-secondary text-center shadow-sm p-3 my-2">
     <h1 class="my-3 text-light">랜선석 예약</h1>
-    
+
     <form action="{% url 'main:main'%}" method="post">
         {% csrf_token %}
+        {% if error_msg %}
         <div class="alert alert-danger">
-        {% for e in error_msg %}
-        <div>
-            <strong>{{e}}</strong>
+            {% for error in error_msg %}
+            <div>
+                <strong>{{error}}</strong>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        </div>
+        {% endif %}
         <div class="input-group mb-3">
-            <input type="number" class="form-control" name="student_number" id="student_number" value="" placeholder="학번을 입력하세요" aria-label="학번을 입력하세요" aria-describedby="basic-addon2">
+            <input type="number" class="form-control" name="student_number" id="student_number" value=""
+                placeholder="학번을 입력하세요" aria-label="학번을 입력하세요" aria-describedby="basic-addon2">
             <span class="input-group-text" id="basic-addon2">학번</span>
-          </div>
+        </div>
         <select class="form-select" name="room" aria-label="Default select example">
             {% for s in seats %}
             <option value={{s}}>{{s}}</option>

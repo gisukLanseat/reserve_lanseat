@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container-fluid bg-secondary text-center shadow-sm p-3 my-2">
     <h1 class="my-3 text-light">랜선석 예약</h1>
-    {% if error_msg %}
+    {% if error_msg|length >0 %}
     <div class="alert alert-danger">
         {% for error in error_msg %}
         <div>
