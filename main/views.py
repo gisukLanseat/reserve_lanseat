@@ -76,6 +76,8 @@ def reserve(request, number, room_id):
             else:
                 error_msg.append("이미 예약된 좌석입니다.")
             reserved = get_reserved(room_id)
+            context = {'student':str(number), 'seats':seat.seats[room_id], 'reserved':reserved[0], "room":room_id, "error_msg":error_msg}
+            return render(request, "main/reserve.html", context)
         return redirect('main:start', number, room_id)
 
 def dashBoard(request):
