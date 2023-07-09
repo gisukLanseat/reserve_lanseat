@@ -19,15 +19,12 @@ a= [
 # Create your views here.
 def index(request):
     if request.method == "POST":
-        if request.POST.get("student_number") != "" and len(request.POST.get("student_number")) == 6:
-            return redirect('main:start', int(request.POST.get("student_number")), request.POST.get("room"))
+        if request.POST.get("student_number") != "":
+            return redirect('main:start', request.POST.get("student_number"), request.POST.get("room"))
         else:
-            if len(request.POST.get("student_number")) != 6:
+            if request.POST.get("student_number") == "":
                 error_msg = []
-                error_msg.append("학번을 정확히 입력하세요(예: 221323)")
-            elif request.POST.get("student_number") == "":
-                error_msg = []
-                error_msg.append("학번을 입력하세요")
+                error_msg.append("방 번호와 이름을 입력하세요")
             context = {'seats':seat.seats.keys, "error_msg":error_msg}
             return render(request, "main/main.html", context)
     context = {'seats':seat.seats.keys}
