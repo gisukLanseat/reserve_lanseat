@@ -39,8 +39,8 @@ def get_reserved(room_id):
         ids.append([])
         for b in a:
             if r.filter(seat=room_id + b):
-                reserved[-1].append(r.get(seat=room_id + b).student)
-                ids[-1].append(str(r.get(seat=room_id + b).id))
+                reserved[-1].append(r.filter(seat=room_id + b)[0].student)
+                ids[-1].append(str(r.filter(seat=room_id + b)[0].id))
             else:
                 if (b == ""):
                     reserved[-1].append("")
