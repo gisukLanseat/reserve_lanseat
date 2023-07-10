@@ -59,13 +59,14 @@ def start(request, number, room_id):
 
 def reserve(request, number, room_id):
     if request.method == "POST":
-        if not reservation.objects.filter(student=number).filter(date=timezone.now().date()) and not reservation.objects.filter(seat=request.POST.get("seat")).filter(date=timezone.now().date()):
-            r = reservation(seat=request.POST.get("seat"), date=timezone.now().date(), student=number)
+        if not reservation.objects.filter(student=number).filter(date=timezone.localtime().date()) and not reservation.objects.filter(seat=request.POST.get("seat")).filter(date=timezone.now().date()):
+            r = reservation(seat=request.POST.get("seat"), date=timezone.localtime().date(), student=number)
+            print(timezone.localtime())
             r.save()
         else:
             error_msg = []
-            if reservation.objects.filter(student=number).filter(date=timezone.now().date()):
-                instance = reservation.objects.filter(student=number).filter(date=timezone.now().date()).filter(seat=request.POST.get("seat"))
+            if reservation.objects.filter(student=number).filter(date=timezone.localtime().date()):
+                instance = reservation.objects.filter(student=number).filter(date=timezone.localtime().date()).filter(seat=request.POST.get("seat"))
                 if instance:
                     instance[0].delete()
                 else:
@@ -83,7 +84,7 @@ def dashBoard(request):
             return redirect("common:login")
     else:
         return redirect("common:login")
-    r = reservation.objects.filter(date=timezone.now().date())
+    r = reservation.objects.filter(date=timezone.localtime().date())
     reserved = {}
     ids = {}
     for x in seat.seats:
