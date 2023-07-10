@@ -31,7 +31,7 @@ def index(request):
     return render(request, "main/main.html", context)
 
 def get_reserved(room_id):
-    r = reservation.objects.filter(date=timezone.now().date())
+    r = reservation.objects.filter(date=timezone.localtime().date())
     reserved = []
     ids = []
     for a in seat.seats[room_id]:
