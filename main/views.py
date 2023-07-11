@@ -59,7 +59,7 @@ def start(request, number, room_id):
 
 def reserve(request, number, room_id):
     if request.method == "POST":
-        if not reservation.objects.filter(student=number).filter(date=timezone.localtime().date()) and not reservation.objects.filter(seat=request.POST.get("seat")).filter(date=timezone.now().date()):
+        if not reservation.objects.filter(student=number).filter(date=timezone.localtime().date()) and not reservation.objects.filter(seat=request.POST.get("seat")).filter(date=timezone.localtime().date()):
             r = reservation(seat=request.POST.get("seat"), date=timezone.localtime().date(), student=number)
             print(timezone.localtime())
             r.save()
