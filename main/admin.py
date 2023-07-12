@@ -1,5 +1,8 @@
 from django.contrib import admin
 from .models import reservation
 
-# Register your models here.
-admin.site.register(reservation)
+@admin.register(reservation)
+class MyAdimn(admin.ModelAdmin):
+    list_display = ['seat','date','student']
+    list_filter = ['seat','date','student']
+    search_fields = ['seat','student']

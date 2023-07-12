@@ -4,18 +4,6 @@ from django.utils import timezone
 from . import seat
 from django.http import Http404
 
-a= [
-    [
-        ['', '', 'not_reserved', 'not_reserved', 'not_reserved', 'not_reserved', 'not_reserved', 'not_reserved', 'not_reserved', 'not_reserved', 'not_reserved', 'not_reserved', 'not_reserved'], 
-        ['', 'not_reserved', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['221323', '', '', '', '', '', '', '', '', '', '', '', '']
-        ], 
-        [['', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['', '', '', '', '', '', '', '', '', '', '', '', ''], 
-        ['20', '', '', '', '', '', '', '', '', '', '', '', '']
-    ]
-]
-
 # Create your views here.
 def index(request):
     if request.method == "POST":
