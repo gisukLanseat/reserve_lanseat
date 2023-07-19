@@ -14,7 +14,7 @@
     {% endif %}
     <form action="{% url 'main:reserve' room student %}" method="post">
         {% csrf_token %}
-        <input type="text" name="student_number" id="student_number" value="{{student}}">
+        <input type="text" name="student_number" id="student_number" readonly="readonly" value="{{student}}">
         <div class="container">
             <div class="table-responsive">
                 <table class="w-auto">
