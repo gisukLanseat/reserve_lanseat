@@ -8,6 +8,10 @@
             <strong>현재는 예약 가능 시간이 아닙니다(예약 가능 시간:오전 9시~익일 오전 2시)</strong>
         </div>
     </div>
+
+    <div class="container">
+        <a href="https://forms.gle/dQbBGKQeqxySYSgVA"><button class="btn btn-info my-3" type="submit">오류 제보</button></a>
+    </div>
     {% else %}
     <form action="{% url 'main:main'%}" method="post">
         {% csrf_token %}
