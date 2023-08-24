@@ -51,39 +51,42 @@ def start(request, number, room_id):
 
 def reserve(request, number, room_id):
     if request.method == "POST":
+        error_msg = []
         if timezone.localtime().hour >= 9:
+            instance = reservation.objects.filter(student=number).filter(date=timezone.localtime().date()).filter(seat=request.POST.get("seat"))
             if not reservation.objects.filter(student=number).filter(date=timezone.localtime().date()) and not reservation.objects.filter(seat=request.POST.get("seat")).filter(date=timezone.localtime().date()):
                 r = reservation(seat=request.POST.get("seat"), date=timezone.localtime().date(), student=number)
                 print(timezone.localtime())
                 r.save()
-            elif reservation.objects.filter(student=number).filter(date=timezone.localtime().date()):
-                instance = reservation.objects.filter(student=number).filter(date=timezone.localtime().date()).filter(seat=request.POST.get("seat"))
-                if instance:
-                    instance[0].delete()
+            elif instance:
+                instance[0].delete()
+            else:
+                if reservation.objects.filter(student=number).filter(date=timezone.localtime().date()):
+                    error_msg.append("이미 예약하셨습니다. 취소하려면 본인이 예약한 좌석을 선택하고 예약하기를 눌러주세요")
+                else:
+                    error_msg.append("이미 예약된 좌석입니다.")
+                reserved = get_reserved(room_id)
+                context = {'student':str(number), 'seats':seat.seats[room_id], 'reserved':reserved[0], "room":room_id, "error_msg":error_msg}
+                return render(request, "main/reserve.html", context)
         elif timezone.localtime().hour < 2:
+            instance = reservation.objects.filter(student=number).filter(date=timezone.localtime().date()-timedelta(1)).filter(seat=request.POST.get("seat"))
             if not reservation.objects.filter(student=number).filter(date=timezone.localtime().date()-timedelta(1)) and not reservation.objects.filter(seat=request.POST.get("seat")).filter(date=timezone.localtime().date()-timedelta(1)):
                 r = reservation(seat=request.POST.get("seat"), date=timezone.localtime().date()-timedelta(1), student=number)
                 print(timezone.localtime())
                 r.save()
-            elif reservation.objects.filter(student=number).filter(date=timezone.localtime().date()-timedelta(1)):
-                instance = reservation.objects.filter(student=number).filter(date=timezone.localtime().date()-timedelta(1)).filter(seat=request.POST.get("seat"))
-                if instance:
-                    instance[0].delete()
+            elif instance:
+                instance[0].delete()
+            else:
+                if reservation.objects.filter(student=number).filter(date=timezone.localtime().date()-timedelta(1)):
+                    error_msg.append("이미 예약하셨습니다. 취소하려면 본인이 예약한 좌석을 선택하고 예약하기를 눌러주세요")
+                else:
+                    error_msg.append("이미 예약된 좌석입니다.")
+                reserved = get_reserved(room_id)
+                context = {'student':str(number), 'seats':seat.seats[room_id], 'reserved':reserved[0], "room":room_id, "error_msg":error_msg}
+                return render(request, "main/reserve.html", context)
         else:
-            error_msg = []
             if 1 < timezone.localtime().hour and timezone.localtime().hour < 9:
                 error_msg.append("예약 불가능 시간입니다(예약 가능 시간:오전 9시~익일 오전 1시)")
-            if reservation.objects.filter(student=number).filter(date=timezone.localtime().date()):
-                instance = reservation.objects.filter(student=number).filter(date=timezone.localtime().date()).filter(seat=request.POST.get("seat"))
-                if instance:
-                    instance[0].delete()
-                else:
-                    error_msg.append("이미 예약하셨습니다. 취소하려면 본인이 예약한 좌석을 선택하고 예약하기를 눌러주세요")
-            else:
-                error_msg.append("이미 예약된 좌석입니다.")
-            reserved = get_reserved(room_id)
-            context = {'student':str(number), 'seats':seat.seats[room_id], 'reserved':reserved[0], "room":room_id, "error_msg":error_msg}
-            return render(request, "main/reserve.html", context)
         return redirect('main:start', number, room_id)
 
 def dashBoard(request):
