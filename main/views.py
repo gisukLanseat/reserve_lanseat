@@ -56,11 +56,19 @@ def reserve(request, number, room_id):
                 r = reservation(seat=request.POST.get("seat"), date=timezone.localtime().date(), student=number)
                 print(timezone.localtime())
                 r.save()
+            elif reservation.objects.filter(student=number).filter(date=timezone.localtime().date()):
+                instance = reservation.objects.filter(student=number).filter(date=timezone.localtime().date()).filter(seat=request.POST.get("seat"))
+                if instance:
+                    instance[0].delete()
         elif timezone.localtime().hour < 2:
             if not reservation.objects.filter(student=number).filter(date=timezone.localtime().date()-timedelta(1)) and not reservation.objects.filter(seat=request.POST.get("seat")).filter(date=timezone.localtime().date()-timedelta(1)):
                 r = reservation(seat=request.POST.get("seat"), date=timezone.localtime().date()-timedelta(1), student=number)
                 print(timezone.localtime())
                 r.save()
+            elif reservation.objects.filter(student=number).filter(date=timezone.localtime().date()-timedelta(1)):
+                instance = reservation.objects.filter(student=number).filter(date=timezone.localtime().date()-timedelta(1)).filter(seat=request.POST.get("seat"))
+                if instance:
+                    instance[0].delete()
         else:
             error_msg = []
             if 1 < timezone.localtime().hour and timezone.localtime().hour < 9:
