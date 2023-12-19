@@ -6,7 +6,7 @@ from django.http import Http404
 from datetime import timedelta
 
 Open_hour = 9 # 예약 시작 시간(오전 9시) 수정 가능(예시: 오후 1시 -> 13)
-close_hour = 2 # 예약 종료 시간(오전 9시) 수정 가능(예시: 오후 1시 -> 13)
+close_hour = 2 # 예약 종료 시간(오전 9시) 수정 가능(예시: 오후 1시 -> 14)
 
 # Create your views here.
 def index(request):
