@@ -24,7 +24,7 @@
                             {% for s in ss %}
                                 <td>
                                     {% if s != '' %}
-                                    {% if 1 < time and time < 9  %}
+                                    {% if closeTime <= time and time < openTime  %}
                                     <input type="radio" class="btn-check" name="seat" id="{{s}}" autocomplete="off" checked value="{{room|add:s}}" disabled>
                                     <label class="btn btn-danger" for="{{s}}">{{s}}</label>
                                     {% elif reserved|get_at_index:forloop.parentloop.counter|get_at_index:forloop.counter == student %}
