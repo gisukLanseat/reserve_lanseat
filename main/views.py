@@ -67,7 +67,7 @@ def reserve(request, number, room_id):
                 instance[0].delete()
             else:
                 if reservation.objects.filter(student=number).filter(date=timezone.localtime().date()):
-                    error_msg.append("이미 예약하셨습니다. 취소하려면 본인이 예약한 좌석을 선택하고 예약하기를 눌러주세요")
+                    error_msg.append("이미 예약하셨습니다. 취소하려면 본인이 예약한 좌석을 선택하고 예약하기를 눌러주십시오")
                 else:
                     error_msg.append("이미 예약된 좌석입니다.")
                 reserved = get_reserved(room_id)
