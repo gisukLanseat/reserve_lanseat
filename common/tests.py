@@ -1,3 +1,3 @@
 from django.test import TestCase
 
-# Create your tests here.
+# 기숙생활부 화이팅.
