@@ -14,7 +14,7 @@ def index(request):
         if request.POST.get("student_number") != "":
             return redirect('main:start', request.POST.get("student_number"), request.POST.get("room"))
         else:
-            if request.POST.get("student_number") == "":
+            if request.POST.get("student_number") == "방 번호와 이름을 입력하세요":
                 error_msg = []
                 error_msg.append("방 번호와 이름을 입력하세요")
             context = {'seats':seat.seats.keys, "error_msg":error_msg}
