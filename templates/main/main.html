@@ -2,10 +2,10 @@
 {% block content %}
 <div class="container bg-secondary text-center shadow-sm p-3 my-2">
     <h1 class="my-3 text-light">랜선석 예약</h1>
-    {% if 1 < time and time < 9  %}
+    {% if closeTime <= time and time < openTime  %}
     <div class="alert alert-danger">
         <div>
-            <strong>현재는 예약 가능 시간이 아닙니다(예약 가능 시간:오전 9시~익일 오전 2시)</strong>
+            <strong>현재는 예약 가능 시간이 아닙니다(예약 가능 시간:오전 9시~익일 오전 2시)  {{time}}</strong>
         </div>
     </div>
 
